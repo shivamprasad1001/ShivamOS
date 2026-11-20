@@ -1,0 +1,377 @@
+@import "tailwindcss";
+
+:root {
+  --bg-paper: #E8E0C8;
+  --bg-dither: #D8CFB2;
+  --ink: #1A1A1A;
+  --ink-muted: #4A463B;
+  --chrome: #F4EFE0;
+  --chrome-dark: #E0D7BD;
+  --accent-1: #E4572E;
+  --accent-2: #2A9D8F;
+  --term-fg: #33FF66;
+  --term-bg: #0B130B;
+  --bsod-bg: #0000AA;
+  --bsod-fg: #F4EFE0;
+  --shadow-hard: 4px 4px 0 0 #1A1A1A;
+  --shadow-hard-sm: 2px 2px 0 0 #1A1A1A;
+  --border-ink: 2px solid #1A1A1A;
+  --font-display: "Silkscreen", "Pixelify Sans", monospace;
+  --font-pixel: "Pixelify Sans", "Silkscreen", monospace;
+  --font-body: "IBM Plex Mono", monospace;
+  --font-terminal: "VT323", monospace;
+  --cursor-default: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Cpath fill='%231A1A1A' d='M1 1h2v1h1v1h1v1h1v1h1v1h1v1h1v1h1v1h1v2H8v2h1v2H7v-2H6v-2H5v1H4v1H1V1z'/%3E%3Cpath fill='%23F4EFE0' d='M2 2h1v1h1v1h1v1h1v1h1v1h1v1h1v1H7v1H6v1H5v1H4v-1H3v-1H2V2z'/%3E%3C/svg%3E") 1 1, default;
+  --cursor-pointer: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Cpath fill='%231A1A1A' d='M5 1h2v5h2v1h2v1h2v1h1v4h-1v2H4v-1H3v-2H2v-2H1V8h2v1h2V1z'/%3E%3Cpath fill='%23F4EFE0' d='M6 2h1v6h1V7h1v1h1V8h1v1h1v4h-1v1H5v-1H4v-2H3V9h1v1h2V2z'/%3E%3C/svg%3E") 5 1, pointer;
+  --cursor-wait: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Cpath fill='%231A1A1A' d='M2 1h12v2h-1v2h-1v2h-1v2h1v2h1v2h1v2H2v-2h1v-2h1V9h1V7H4V5H3V3H2V1z'/%3E%3Cpath fill='%23F4EFE0' d='M4 3h8v2h-1v2h-1v1H6V7H5V5H4V3zm2 7h4v1h1v2h1v1H4v-1h1v-2h1v-1z'/%3E%3Cpath fill='%23E4572E' d='M6 5h4v2H9v1H7V7H6V5zm1 6h2v2h2v1H5v-1h2v-2z'/%3E%3C/svg%3E") 8 8, wait;
+}
+
+@theme inline {
+  --color-paper: var(--bg-paper);
+  --color-dither: var(--bg-dither);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-chrome: var(--chrome);
+  --color-chrome-dark: var(--chrome-dark);
+  --color-accent-1: var(--accent-1);
+  --color-accent-2: var(--accent-2);
+  --color-term-fg: var(--term-fg);
+  --color-term-bg: var(--term-bg);
+  --font-display: var(--font-display);
+  --font-pixel: var(--font-pixel);
+  --font-body: var(--font-body);
+  --font-terminal: var(--font-terminal);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  border-radius: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  cursor: var(--cursor-default);
+  -webkit-font-smoothing: antialiased;
+}
+
+body.is-busy,
+body.is-busy * {
+  cursor: var(--cursor-wait) !important;
+}
+
+a,
+button,
+[role="button"],
+[role="menuitem"],
+summary,
+select {
+  cursor: var(--cursor-pointer);
+}
+
+/* Focus visibility — crisp 2px tomato outline on keyboard nav */
+:focus-visible {
+  outline: 2px solid var(--accent-1);
+  outline-offset: 2px;
+}
+
+/* 1px pixel dither / checkerboard desktop wallpaper */
+.desktop-dither {
+  background-color: var(--bg-paper);
+  background-image:
+    conic-gradient(
+      var(--bg-dither) 90deg,
+      transparent 90deg 180deg,
+      var(--bg-dither) 180deg 270deg,
+      transparent 270deg
+    );
+  background-size: 2px 2px;
+  image-rendering: pixelated;
+}
+
+.desktop-dots {
+  background-color: var(--bg-paper);
+  background-image: radial-gradient(var(--bg-dither) 1px, transparent 1px);
+  background-size: 8px 8px;
+  image-rendering: pixelated;
+}
+
+.desktop-grid {
+  background-color: var(--bg-paper);
+  background-image:
+    linear-gradient(to right, var(--bg-dither) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--bg-dither) 1px, transparent 1px);
+  background-size: 16px 16px;
+  image-rendering: pixelated;
+}
+
+.desktop-diagonal {
+  background-color: var(--bg-paper);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--bg-dither) 0px,
+    var(--bg-dither) 1px,
+    transparent 1px,
+    transparent 6px
+  );
+  image-rendering: pixelated;
+}
+
+/* Hard 90s OS window shadow & border */
+.os-window {
+  background-color: var(--chrome);
+  border: 2px solid var(--ink);
+  box-shadow: var(--shadow-hard);
+}
+
+.os-btn {
+  background-color: var(--chrome);
+  border: 2px solid var(--ink);
+  box-shadow: var(--shadow-hard-sm);
+  color: var(--ink);
+  font-family: var(--font-body);
+  transition: transform 80ms steps(2, end), box-shadow 80ms steps(2, end), background-color 80ms steps(2, end);
+}
+
+.os-btn:hover:not(:disabled) {
+  background-color: var(--bg-paper);
+}
+
+.os-btn:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 0 var(--ink);
+}
+
+.os-btn-primary {
+  background-color: var(--accent-1);
+  color: var(--chrome);
+  border: 2px solid var(--ink);
+  box-shadow: var(--shadow-hard-sm);
+}
+
+.os-btn-primary:hover:not(:disabled) {
+  background-color: #cc4821;
+}
+
+.os-btn-teal {
+  background-color: var(--accent-2);
+  color: var(--chrome);
+  border: 2px solid var(--ink);
+  box-shadow: var(--shadow-hard-sm);
+}
+
+.os-btn-teal:hover:not(:disabled) {
+  background-color: #218377;
+}
+
+/* Classic Mac System 7 horizontal titlebar pinstripes */
+.titlebar-stripes-active {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--ink) 0px,
+    var(--ink) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+.titlebar-stripes-inactive {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--bg-dither) 0px,
+    var(--bg-dither) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+/* Stepped 120ms window open/close animation */
+@keyframes osWindowOpen {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes osWindowClose {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+}
+
+.animate-window-open {
+  animation: osWindowOpen 120ms steps(4, end) forwards;
+}
+
+.animate-window-close {
+  animation: osWindowClose 120ms steps(4, end) forwards;
+  pointer-events: none;
+}
+
+@keyframes osToastIn {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes osToastOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+.animate-toast-in {
+  animation: osToastIn 120ms steps(4, end) forwards;
+}
+
+.animate-toast-out {
+  animation: osToastOut 120ms steps(4, end) forwards;
+}
+
+@keyframes desktopRefreshBlink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-desktop-refresh {
+  animation: desktopRefreshBlink 180ms steps(2, end) 1;
+}
+
+@keyframes cursorBlink {
+  0%, 49% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+.animate-caret-blink {
+  animation: cursorBlink 900ms steps(2, end) infinite;
+}
+
+/* Optional subtle CRT scanline overlay (only allowed gradient) */
+.crt-scanlines {
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(26, 26, 26, 0.08) 0px,
+    rgba(26, 26, 26, 0.08) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* Retro scrollbars inside windows */
+.os-scroll::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+.os-scroll::-webkit-scrollbar-track {
+  background: var(--bg-paper);
+  border-left: 2px solid var(--ink);
+}
+
+.os-scroll::-webkit-scrollbar-thumb {
+  background: var(--chrome-dark);
+  border: 2px solid var(--ink);
+}
+
+.os-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-2);
+}
+
+/* Tabular numbers everywhere numeric */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Pixel crisp rendering helper */
+.pixel-crisp {
+  shape-rendering: crispEdges;
+  image-rendering: pixelated;
+}
+
+/* Reduced motion compliance (OS preference + in-app Settings toggle) */
+@media (prefers-reduced-motion: reduce) {
+  .animate-window-open,
+  .animate-window-close,
+  .animate-toast-in,
+  .animate-toast-out,
+  .animate-desktop-refresh,
+  .animate-caret-blink {
+    animation: none !important;
+  }
+  .os-btn {
+    transition: none !important;
+  }
+}
+
+[data-reduce-motion="true"] .animate-window-open,
+[data-reduce-motion="true"] .animate-window-close,
+[data-reduce-motion="true"] .animate-toast-in,
+[data-reduce-motion="true"] .animate-toast-out,
+[data-reduce-motion="true"] .animate-desktop-refresh,
+[data-reduce-motion="true"] .animate-caret-blink {
+  animation: none !important;
+}
+
+[data-reduce-motion="true"] .os-btn {
+  transition: none !important;
+}
+
+/* Print stylesheet so printing Resume produces a crisp document */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-only-resume {
+    display: block !important;
+    position: static !important;
+    border: none !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+}
